@@ -1,5 +1,5 @@
-import './ImageGalleryItem.scss';
-import PropTypes from 'prop-types';
+import "./ImageGalleryItem.scss";
+import PropTypes from "prop-types";
 
 const ImageGalleryItem = ({ smallImg, largeImg, tags, onModal }) => {
   return (

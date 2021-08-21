@@ -1,40 +1,40 @@
-import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 
-import './Modal.scss';
+import "./Modal.scss";
 
-const rootModal = document.querySelector('#root-modal');
+const rootModal = document.querySelector("#root-modal");
 
-export default class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.hadleKeyDown);
-  }
+const Modal = ({ onClose, data }) => {
+  useEffect(() => {
+    const hadleKeyDown = (e) => {
+      if (e.code === "Escape") {
+        onClose();
+      }
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.hadleKeyDown);
-  }
+    window.addEventListener("keydown", hadleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", hadleKeyDown);
+    };
+  }, [onClose]);
 
-  hadleKeyDown = e => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
-
-  handOverlayClick = e => {
+  const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
-      this.props.onClose();
+      onClose();
     }
   };
 
-  render() {
-    const { src, alt } = this.props.data;
-    return createPortal(
-      <div className="Overlay" onClick={this.handOverlayClick}>
-        <div className="Modal">
-          <img src={src} alt={alt} />
-        </div>
-      </div>,
-      rootModal,
-    );
-  }
-}
+  const { src, alt } = data;
+
+  return createPortal(
+    <div className="Overlay" onClick={handleOverlayClick}>
+      <div className="Modal">
+        <img src={src} alt={alt} />
+      </div>
+    </div>,
+    rootModal
+  );
+};
+
+export default Modal;

@@ -1,8 +1,8 @@
-import ImageGalleryItem from '../ImageGalleryItem';
-import React from 'react';
-import PropTypes from 'prop-types';
+import ImageGalleryItem from "../ImageGalleryItem";
+import React from "react";
+import PropTypes from "prop-types";
 
-import './ImageGallery.scss';
+import "./ImageGallery.scss";
 
 const ImageGallery = ({ listGallery, onImgClick }) => {
   return (
