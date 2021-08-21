@@ -29,38 +29,11 @@ const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [dataModal, setDataModal] = useState("");
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const prevQuery = prevState.query;
-  //   const newQuery = this.state.query;
-
-  //   const prevDataModal = prevState.dataModal;
-  //   const newDataModal = this.state.dataModal;
-
-  //   if (newQuery !== prevQuery) {
-  //     this.setState({ gallery: [], currentPage: 1 });
-  //     this.fetchImages();
-  //   }
-
-  //   if (newDataModal !== prevDataModal) {
-  //     this.toggleModal();
-  //   }
-  // }
-
   useEffect(() => {
-    console.log("первый запуск");
     if (!query) {
       return;
     }
-    setGallery([]);
-    setCurrentPage(1);
-    fetchImages();
-  }, [query]);
 
-  const hadleFormSubmit = (searchName) => {
-    setQuery(searchName);
-  };
-
-  const fetchImages = () => {
     setStatus("padding");
 
     const options = { query, currentPage };
@@ -68,7 +41,7 @@ const App = () => {
     API(options)
       .then((resolved) => {
         setGallery((prevGallery) => [...prevGallery, ...resolved.hits]);
-        setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+
         setStatus("resolved");
       })
       .catch((error) => {
@@ -81,6 +54,16 @@ const App = () => {
           behavior: "smooth",
         });
       });
+  }, [query, currentPage]);
+
+  const hadleFormSubmit = (searchName) => {
+    setGallery([]);
+    setCurrentPage(1);
+    setQuery(searchName);
+  };
+
+  const nextPage = () => {
+    setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
   };
 
   const handleShowModal = (e) => {
@@ -101,7 +84,7 @@ const App = () => {
   let button;
 
   if (gallery.length > 0 && status === "resolved") {
-    button = <ButtonLoadMore onClick={fetchImages} />;
+    button = <ButtonLoadMore onClick={nextPage} />;
   } else if (status === "padding") {
     button = <Loader />;
   }
