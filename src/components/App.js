@@ -94,7 +94,6 @@ const App = () => {
     button = <Loader />;
   }
 
-  console.log(showModal);
   return (
     <>
       <Header>
